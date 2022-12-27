@@ -7,7 +7,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-jobs:
   dockerx-build:
     runs-on: ubuntu-latest
     steps:
@@ -32,5 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          # tags: gcr.io/${{ secrets.PROJECT_ID }}/githubaction-java-dev:${{ env.IMAGE_TAG }}
-          tags: gcr.io/${{ secrets.PROJECT_ID }}/githubaction-java-dev:latest
+          tags: gcr.io/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
