@@ -1,44 +1,84 @@
-# SpringBoot sample docker image
+# Optimize Gradle build speed using cache plugin
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DevSecOpsSamples_java-gradle&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DevSecOpsSamples_java-gradle) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=DevSecOpsSamples_java-gradle&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=DevSecOpsSamples_java-gradle)
+## GitHub Workflow
 
-@RequestMapping(value="/", method=RequestMethod.GET)  
-@RequestMapping(value="/ping", method=RequestMethod.GET)  
-
-## AWS
+[.github/workflows/build-java.yml](.github/workflows/build-java.yml):
 
 ```bash
-ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-REGION=$(aws configure get default.region)
+name: Build
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
 
-echo "ACCOUNT_ID: $ACCOUNT_ID"
-echo "REGION: $REGION"
-sleep 1
-
-docker build -t java-gradle . --platform linux/amd64
-
-aws ecr create-repository --repository-name java-gradle --image-scanning-configuration scanOnPush=true --region $REGION
-
-docker tag java-gradle:latest ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/java-gradle:latest
-
-aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
-
-docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/java-gradle:latest
+jobs:
+  gradle-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        run: ./gradlew build --info
+          
+  gradle-no-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build and analyze
+        run: ./gradlew build --info
 ```
 
-## GCP
+[.github/workflows/build-java-sonarqube.yml](.github/workflows/build-java-sonarqube.yml):
 
-```bash
-COMPUTE_ZONE="us-central1"
-PROJECT_ID="sample-project" # replace with your project
-```
+### Time Taken
 
-```bash
-echo "PROJECT_ID: ${PROJECT_ID}"
+| Action Step            | Cache Miss  | Cache Hit  |
+|------------------------|-------------|------------|
+| Set up JDK 11          | 6s          | 6s   |
+| Cache Gradle packages  | 0s          | 8s   |
+| Grable build           | 33s         | 8s   |
 
-docker build -t java-gradle . --platform linux/amd64
-docker tag java-gradle:latest gcr.io/${PROJECT_ID}/java-gradle:latest
+You can speed up build time 17 seconds.
 
-gcloud auth configure-docker
-docker push gcr.io/${PROJECT_ID}/java-gradle:latest
-```
+- Cache miss:
+
+    ![cache-miss](screenshots/cache-miss.png?raw=true)
+
+    Download gradle wrapper and SpringBoot dependencies.
+
+- Cache hit:
+
+    ![cache-hit](screenshots/cache-hit.png?raw=true)
+
+    ![github-cache](screenshots/github-cache.png?raw=true)
+
+Run details in usage menu:
+
+![build-time-in-usage](screenshots/build-time-in-usage.png?raw=true)
+
+
+## Reference
+
+- [GitHub Actions /Using workflows / Cache dependencies / Caching dependencies to speed up workflows](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#managing-caches)
+
+- https://github.com/actions/cache
+
+- https://github.com/actions/cache/blob/main/examples.md#java---gradle
