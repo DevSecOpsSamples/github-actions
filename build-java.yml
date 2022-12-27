@@ -37,3 +37,4 @@ jobs:
           java-version: 11
       - name: Build and analyze
         run: ./gradlew build --info
+        
