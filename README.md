@@ -11,7 +11,7 @@ Provides GitHub Workflow
 
 ## Docker
 
-- Build multi-platform docker image files: [dockerx-build-push.yml](dockerx-build-push.yml)
+- Build multi-platform docker image files: [docker-buildx-gcr.yml](docker-buildx-gcr.yml)
 
 ## Cache
 
