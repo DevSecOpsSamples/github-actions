@@ -1,5 +1,10 @@
 # GitHub Actions
 
+[![Build](https://github.com/DevSecOpsSamples/githubactions/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DevSecOpsSamples/githubactions/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DevSecOpsSamples_githubactions&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DevSecOpsSamples_githubactions) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=DevSecOpsSamples_githubactions&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=DevSecOpsSamples_githubactions)
+
+## Overview
+
 Provides GitHub Workflow and Action samples.
 
 ## Sample Repositories
