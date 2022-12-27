@@ -1,6 +1,6 @@
 # GitHub Actions
 
-Provides GitHub Workflow
+Provides GitHub Workflow and Action samples.
 
 ## Sample Repositories
 
