@@ -1,5 +1,6 @@
-# GitHub Action
+# GitHub Actions
 
+Provides GitHub Workflow
 
 ## Sample Repositories
 
@@ -12,13 +13,13 @@
 
 ## Cache
 
-- Cache Gradle dependencies: [java/README.md](java/README.md)
+- Optimize build speed using the `cache` plugin: [java/README.md](java/README.md)
 
     [java/.github/workflows/build-java.yml](java/.github/workflows/build-java.yml)
 
     [java/.github/workflows/build-java-sonarqube.yml](java/.github/workflows/build-java-sonarqube.yml)
 
-## Metric
+## Matrix
 
 - [gke-workload-identity](https://github.com/DevSecOpsSamples/gke-workload-identity/blob/master/.github/workflows/build.yml)
 
