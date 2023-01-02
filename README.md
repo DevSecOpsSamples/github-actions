@@ -9,10 +9,10 @@ Provides GitHub Workflow and Action samples.
 
 ## Sample Repositories
 
-| Repository                          | Workflow File | Actions |
-|---|--------------------------------|------|
-| gke-workload-identity | [build.yml](https://github.com/DevSecOpsSamples/gke-workload-identity/blob/master/.github/workflows/build.yml)     | [actions](https://github.com/DevSecOpsSamples/gke-workload-identity/actions/workflows/build.yml) | GCP, gcloud, Docker, Terraform, Python, pytest, Sonarqube |
-| jenkins-fargate-cdk   | [build.yml](https://github.com/DevSecOpsSamples/jenkins-fargate-cdk/blob/master/.github/workflows/build.yml)     | [actions](https://github.com/DevSecOpsSamples/jenkins-fargate-cdk/actions/workflows/build.yml) | Docker, CDK, Sonarqube |
+| Repository                          | Workflow File | Actions | Description | Plugins |
+|---|--------------------------------|------|--------------------------------|---------------|
+| gke-workload-identity | [build.yml](https://github.com/DevSecOpsSamples/gke-workload-identity/blob/master/.github/workflows/build.yml)     | [actions](https://github.com/DevSecOpsSamples/gke-workload-identity/actions/workflows/build.yml) | GCP, gcloud, Docker, Terraform <br/> Python, pytest, publish unittest result, Sonarqube  | hashicorp/setup-terraform@v2.0.3 <br/>jacobtomlinson/gha-find-replace@v2 <br/> actions/github-script@v6 <br/>actions/setup-java@v1 <br/>actions/setup-python@v4 <br/> google-github-actions/auth@v1 <br/> EnricoMi/publish-unit-test-result-action/composite@v2 <br/> actions/cache@v3 <br/> |
+| jenkins-fargate-cdk   | [build.yml](https://github.com/DevSecOpsSamples/jenkins-fargate-cdk/blob/master/.github/workflows/build.yml)     | [actions](https://github.com/DevSecOpsSamples/jenkins-fargate-cdk/actions/workflows/build.yml) | Docker, CDK, Sonarqube | |
 
 ## Docker
 
@@ -29,6 +29,28 @@ Provides GitHub Workflow and Action samples.
 ## Matrix
 
 - [gke-workload-identity](https://github.com/DevSecOpsSamples/gke-workload-identity/blob/master/.github/workflows/build.yml)
+
+## Terraform
+
+- [terraform.yml](terraform.yml)
+
+    <details><summary>Terraform Plan</summary>
+
+    ![terraform-plan.png](./screenshots/terraform-plan.png?raw=true)
+
+    </details>
+
+## Python Unittest
+
+- [python-unittest.yml](python-unittest.yml) [setup.cfg](setup.cfg)
+
+    <details><summary>Unittest Results</summary>
+    
+    ![test-failed.png](./screenshots/test-failed.png?raw=true)
+
+    ![test-failed-details.png](./screenshots/test-failed-details.png?raw=true)
+
+    </details>
 
 ## Reference
 
