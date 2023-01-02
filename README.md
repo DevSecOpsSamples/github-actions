@@ -34,9 +34,23 @@ Provides GitHub Workflow and Action samples.
 
 - [terraform.yml](terraform.yml)
 
+    <details><summary>Terraform Plan</summary>
+
+    ![terraform-plan.png](./screenshots/terraform-plan.png?raw=true)
+
+    </details>
+
 ## Python Unittest
 
-- [python-unittest.yml](python-unittest.yml) [setup.cfg](setup.cfg) 
+- [python-unittest.yml](python-unittest.yml) [setup.cfg](setup.cfg)
+
+    <details><summary>Unittest Results</summary>
+    
+    ![test-failed.png](./screenshots/test-failed.png?raw=true)
+
+    ![test-failed-details.png](./screenshots/test-failed-details.png?raw=true)
+
+    </details>
 
 ## Reference
 
