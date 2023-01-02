@@ -1,29 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.1.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 	id 'base'
   	id "org.sonarqube" version "3.5.0.2730"
-}
-sourceCompatibility = '1.8'
-archivesBaseName = 'app'
-
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-}
-
-springBoot {
-    mainClassName = 'com.sample.SampleApplication.java'
-}
-test {
-	useJUnitPlatform()
 }
 
 sonarqube {
@@ -34,7 +12,16 @@ sonarqube {
         // property "sonar.host.url", "http://127.0.0.1:9000"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.sources", "."
+        property "sonar.python.version", "3.9"
+        property "sonar.exclusions", "build/**, gha-creds-*.json, .*sa, java/**"
         // property "sonar.java.binaries", "build"
         property "sonar.links.ci", "https://github.com/DevSecOpsSamples/githubactions/actions"
     }
+}
+
+clean.doFirst {
+    delete "${rootDir}/.pytest_cache"
+    delete fileTree(dir: './' , include: '**/.coverage')
+    delete fileTree(dir: 'python' , include: '**/*.pyc')    
 }

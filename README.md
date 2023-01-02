@@ -45,12 +45,25 @@ Provides GitHub Workflow and Action samples.
 - [python-unittest.yml](python-unittest.yml) [setup.cfg](setup.cfg)
 
     <details><summary>Unittest Results</summary>
-    
+
     ![test-failed.png](./screenshots/test-failed.png?raw=true)
 
     ![test-failed-details.png](./screenshots/test-failed-details.png?raw=true)
 
     </details>
+
+## Plugins
+
+| Plugin      |  Description                   |
+|-------------|--------------------------------|
+| [actions/setup-java@v3](https://github.com/actions/setup-java) |  |
+| [actions/setup-python@v4](https://github.com/actions/setup-python) |  |
+| [actions/cache@v3](https://github.com/actions/cache) |  |
+| [actions/github-script@v6](https://github.com/actions/github-script) |  |
+| [hashicorp/setup-terraform@v2.0.3](https://github.com/hashicorp/setup-terraform) | |
+| [jacobtomlinson/gha-find-replace@v2](https://github.com/jacobtomlinson/gha-find-replace) |  |
+| [google-github-actions/auth@v1](https://github.com/google-github-actions/auth) |  |
+| [EnricoMi/publish-unit-test-result-action/composite@v2](https://github.com/EnricoMi/publish-unit-test-result-action) |  |
 
 ## Reference
 
