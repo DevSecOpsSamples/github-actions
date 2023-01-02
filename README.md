@@ -61,9 +61,9 @@ Provides GitHub Workflow and Action samples.
 | [actions/cache@v3](https://github.com/actions/cache) |  |
 | [actions/github-script@v6](https://github.com/actions/github-script) |  |
 | [hashicorp/setup-terraform@v2.0.3](https://github.com/hashicorp/setup-terraform) | |
-| [jacobtomlinson/gha-find-replace@v2](https://github.com/jacobtomlinson/gha-find-replace) |  |
-| [google-github-actions/auth@v1](https://github.com/google-github-actions/auth) |  |
-| [EnricoMi/publish-unit-test-result-action/composite@v2](https://github.com/EnricoMi/publish-unit-test-result-action) |  |
+| [jacobtomlinson/gha-find-replace@v2](https://github.com/jacobtomlinson/gha-find-replace) | Find and Replace Action |
+| [google-github-actions/auth@v1](https://github.com/google-github-actions/auth) |  GitHub Action authenticates to Google Cloud |
+| [EnricoMi/publish-unit-test-result-action/composite@v2](https://github.com/EnricoMi/publish-unit-test-result-action) |  Publish Test Results |
 
 ## Reference
 

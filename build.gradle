@@ -14,6 +14,7 @@ sonarqube {
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.sources", "."
         property "sonar.python.version", "3.9"
+        property "sonar.inclusions", "**/*.yml"
         property "sonar.exclusions", "build/**, gha-creds-*.json, .*sa, java/**"
         // property "sonar.java.binaries", "build"
         property "sonar.links.ci", "https://github.com/DevSecOpsSamples/githubactions/actions"
