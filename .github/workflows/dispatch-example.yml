@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Get image tag
         run: |
+          echo "SOURCE_IMAGE_WITH_TAG=${{ github.env.inputs.source-regurl-tag }}" >> $GITHUB_ENV
+          echo "TARGET_IMAGE_URL=${{ github.env.inputs.target-regurl }}" >> $GITHUB_ENV
           echo IMAGE_TAG=$(echo ${{ env.SOURCE_IMAGE_WITH_TAG }} | cut -d":" -f2) >> $GITHUB_ENV
 
       - name: Summary
