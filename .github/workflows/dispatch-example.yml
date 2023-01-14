@@ -17,6 +17,10 @@ jobs:
     name: Copy container image
     runs-on: ubuntu-latest
     steps:
+      - name: print
+        run: |
+          echo ${{ github.env.inputs.source-regurl-tag }}
+          echo ${{ github.env.inputs.target-tag }}
       - name: Get image tag
         run: |
           echo "SOURCE_IMAGE_WITH_TAG=${{ github.env.inputs.source-regurl-tag }}" >> $GITHUB_ENV
