@@ -1,3 +1,4 @@
+
 # GitHub Actions
 
 [![Build](https://github.com/DevSecOpsSamples/githubactions/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DevSecOpsSamples/githubactions/actions/workflows/build.yml)
@@ -71,11 +72,13 @@ Provides GitHub Workflow and Action samples.
 cp .github/workflows/dispatch-request-exmple.json request-body.json
 cat request-body.json
 
+TOKEN="example-github_pat_XXXXX"
+
 curl -d @request-body.json \
   -H "Accept: application/vnd.github+json" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  -H "Authorization: Bearer <your-token>" \
-  https://github.com/DevSecOpsSamples/githubactions/actions/workflows/dispatch-example.yml/dispatches
+  -H "Authorization: Bearer $TOKEN" \
+  https://api.github.com/repos/DevSecOpsSamples/githubactions/actions/workflows/dispatch-example.yml/dispatches
 ```
 
 develop branch:
@@ -86,8 +89,8 @@ develop branch:
 { 
    "ref": "develop",
     "inputs": {
-        "test-url-tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
-        "prod-url": "gcr.io/project-id/target-image"
+        "source_regurl_tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
+        "target_regurl": "gcr.io/project-id/target-image"
     }
 }
 ```
@@ -96,10 +99,10 @@ master branch:
 
 ```json
 { 
-   "ref": "develop",
+   "ref": "master",
     "inputs": {
-        "test-url-tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
-        "prod-url": "gcr.io/project-id/target-image"
+        "source_regurl_tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
+        "target_regurl": "gcr.io/project-id/target-image"
     }
 }
 ```
