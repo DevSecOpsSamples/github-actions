@@ -6,11 +6,11 @@ on:
       test-regurl-tag:
         required: true
         default: ""
-        description: "Container image registry URL with tag"
+        description: "Container image registry URL with tag. e.g., gcr.io/project-id-372417/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2"
       prod-regurl:
         required: true
         default: ""
-        description: "Container image registry URL WITHOUT tag"
+        description: "Container image registry URL WITHOUT tag e.g., gcr.io/project-id-372417/target-image"
 
 env:
   TEST_IMAGE_WITH_TAG: ${{ github.env.inputs.test-regurl-tag }}

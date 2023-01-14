@@ -1,0 +1,7 @@
+{ 
+   "ref": "develop",
+    "inputs": {
+        "test-url-tag": "gcr.io/project-id-372417/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
+        "prod-url": "gcr.io/project-id-372417/target-image"
+    }
+}
