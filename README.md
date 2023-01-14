@@ -1,118 +1,55 @@
-# GitHub Actions
+name: GitHub action dispath
 
-[![Build](https://github.com/DevSecOpsSamples/githubactions/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DevSecOpsSamples/githubactions/actions/workflows/build.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DevSecOpsSamples_githubactions&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DevSecOpsSamples_githubactions) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=DevSecOpsSamples_githubactions&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=DevSecOpsSamples_githubactions)
+on:
+  workflow_dispatch:
+    inputs:
+      source_regurl_tag:
+        required: true
+        default: ""
+        description: "Container image registry URL with tag. e.g., gcr.io/project-id-372417/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2"
+      target_regurl:
+        required: true
+        default: ""
+        description: "Container image registry URL without tag. e.g., gcr.io/project-id-372417/target-image"
 
-## Overview
+jobs:
+  copy_container_image:
+    name: Copy container image
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ''
+      TARGET_IMAGE: ''   
+    steps:
+      - name: print
+        run: |
+          echo ${{ inputs.source_regurl_tag }}
+          echo ${{ inputs.target-tag }}
+      - name: Get image tag
+        run: |
+          echo IMAGE_TAG=$(echo ${{ inputs.source_regurl_tag }} | cut -d":" -f2) >> $GITHUB_ENV
+          echo "TARGET_IMAGE=${{ inputs.target_regurl }}:${{ env.IMAGE_TAG }}" >> $GITHUB_ENV
 
-Provides GitHub Workflow and Action samples.
+      - uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.SA_A }}
 
-## Sample Repositories
+      - name: Configure Docker auth for gcloud command-line
+        run: gcloud --quiet auth configure-docker && gcloud auth list
+      
+      - name: Pull from source image
+        run: docker pull ${{ inputs.source_regurl_tag }}
 
-| Repository                          | Workflow File | Actions | Description | Plugins |
-|---|--------------------------------|------|--------------------------------|---------------|
-| gke-workload-identity | [build.yml](https://github.com/DevSecOpsSamples/gke-workload-identity/blob/master/.github/workflows/build.yml)     | [actions](https://github.com/DevSecOpsSamples/gke-workload-identity/actions/workflows/build.yml) | GCP, gcloud, Docker, Terraform <br/> Python, pytest, publish unittest result, Sonarqube  | hashicorp/setup-terraform@v2.0.3 <br/>jacobtomlinson/gha-find-replace@v2 <br/> actions/github-script@v6 <br/>actions/setup-java@v1 <br/>actions/setup-python@v4 <br/> google-github-actions/auth@v1 <br/> EnricoMi/publish-unit-test-result-action/composite@v2 <br/> actions/cache@v3 <br/> |
-| jenkins-fargate-cdk   | [build.yml](https://github.com/DevSecOpsSamples/jenkins-fargate-cdk/blob/master/.github/workflows/build.yml)     | [actions](https://github.com/DevSecOpsSamples/jenkins-fargate-cdk/actions/workflows/build.yml) | Docker, CDK, Sonarqube | |
+      - name: Tag target image
+        run: docker tag ${{ inputs.source_regurl_tag }} ${{ inputs.target_regurl }}:${{ env.IMAGE_TAG }}
 
-## Docker
+      - name: Push to target
+        run: docker push ${{ inputs.target_regurl }}:${{ env.IMAGE_TAG }}
 
-- Build multi-platform docker image files: [docker-buildx-gcr.yml](docker-buildx-gcr.yml)
+      - name: Summary
+        run: |
+          echo "source_regurl_tag: ${{ inputs.source_regurl_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "target_regurl: ${{ inputs.target_regurl }}" >> $GITHUB_STEP_SUMMARY
+          echo "TARGET_IMAGE: ${{ inputs.target_regurl }}:${{ env.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
 
-## Cache
-
-- Optimize build speed using the `cache` plugin: [java/README.md](java/README.md)
-
-    [java/.github/workflows/build-java.yml](java/.github/workflows/build-java.yml)
-
-    [java/.github/workflows/build-java-sonarqube.yml](java/.github/workflows/build-java-sonarqube.yml)
-
-## Matrix
-
-- [gke-workload-identity](https://github.com/DevSecOpsSamples/gke-workload-identity/blob/master/.github/workflows/build.yml)
-
-## Terraform
-
-- [terraform.yml](terraform.yml)
-
-    <details><summary>Terraform Plan</summary>
-
-    ![terraform-plan.png](./screenshots/terraform-plan.png?raw=true)
-
-    </details>
-
-## Python Unittest
-
-- [python-unittest.yml](python-unittest.yml) [setup.cfg](setup.cfg)
-
-    <details><summary>Unittest Results</summary>
-
-    ![test-failed.png](./screenshots/test-failed.png?raw=true)
-
-    ![test-failed-details.png](./screenshots/test-failed-details.png?raw=true)
-
-    </details>
-
-## Plugins
-
-| Plugin      |  Description                   |
-|-------------|--------------------------------|
-| [actions/setup-java@v3](https://github.com/actions/setup-java) |  |
-| [actions/setup-python@v4](https://github.com/actions/setup-python) |  |
-| [actions/cache@v3](https://github.com/actions/cache) |  |
-| [actions/github-script@v6](https://github.com/actions/github-script) |  |
-| [hashicorp/setup-terraform@v2.0.3](https://github.com/hashicorp/setup-terraform) | |
-| [jacobtomlinson/gha-find-replace@v2](https://github.com/jacobtomlinson/gha-find-replace) | Find and Replace Action |
-| [google-github-actions/auth@v1](https://github.com/google-github-actions/auth) |  GitHub Action authenticates to Google Cloud |
-| [EnricoMi/publish-unit-test-result-action/composite@v2](https://github.com/EnricoMi/publish-unit-test-result-action) |  Publish Test Results |
-
-## Dispatch
-
-```bash
-cp .github/workflows/dispatch-request-exmple.json request-body.json
-cat request-body.json
-
-TOKEN="example-github_pat_XXXXX"
-
-curl -d @request-body.json \
-  -H "Accept: application/vnd.github+json" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  -H "Authorization: Bearer $TOKEN" \
-  https://api.github.com/repos/DevSecOpsSamples/githubactions/actions/workflows/dispatch-example.yml/dispatches
-```
-
-develop branch:
-
-[.github/workflows/dispatch-request-exmple.json](.github/workflows/dispatch-request-exmple.json)
-
-```json
-{ 
-   "ref": "develop",
-    "inputs": {
-        "source_regurl_tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
-        "target_regurl": "gcr.io/project-id/target-image"
-    }
-}
-```
-
-master branch:
-
-```json
-{ 
-   "ref": "master",
-    "inputs": {
-        "source_regurl_tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
-        "target_regurl": "gcr.io/project-id/target-image"
-    }
-}
-```
-
-
-## Reference
-
-- [GitHub Actions /Using workflows / Cache dependencies / Caching dependencies to speed up workflows](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#managing-caches)
-
-- https://github.com/actions/cache
-
-- https://github.com/actions/cache/blob/main/examples.md#java---gradle
-
-- https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#create-a-workflow-dispatch-event
+      - uses: hmarr/debug-action@v2
+        if: always()
