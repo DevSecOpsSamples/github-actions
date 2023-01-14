@@ -31,7 +31,7 @@ jobs:
 
       - uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: ${{ secrets.SA }}
+          credentials_json: ${{ secrets.SA_A }}
 
       - name: Configure Docker auth for gcloud command-line
         run: gcloud --quiet auth configure-docker && gcloud auth list

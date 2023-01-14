@@ -68,10 +68,18 @@ Provides GitHub Workflow and Action samples.
 ## Dispatch
 
 ```bash
+echo ${PROJECT_ID}
+cd app
+docker build -t gcr.io/${PROJECT_ID}/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2 .
+gcloud --quiet auth configure-docker && gcloud auth list
+docker push gcr.io/${PROJECT_ID}/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2
+
 cp .github/workflows/dispatch-request-exmple.json request-body.json
 cat request-body.json
 
 TOKEN="example-github_pat_XXXXX"
+
+echo "TOKEN: $TOKEN"
 
 curl -d @request-body.json \
   -H "Accept: application/vnd.github+json" \
