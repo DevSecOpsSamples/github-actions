@@ -33,7 +33,7 @@ jobs:
         run: |
           echo "source_regurl_tag: ${{ inputs.source_regurl_tag }}" >> $GITHUB_STEP_SUMMARY
           echo "target_regurl: ${{ inputs.target_regurl }}" >> $GITHUB_STEP_SUMMARY
-          echo "PROD_IMAGE: ${{ inputs.target_regurl }}:${{ env.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "PROD_IMAGE: ${{ env.PROD_IMAGE }}" >> $GITHUB_STEP_SUMMARY
 
       - uses: hmarr/debug-action@v2
         if: always()
