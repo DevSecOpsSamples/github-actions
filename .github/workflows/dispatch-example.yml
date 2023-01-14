@@ -23,9 +23,9 @@ jobs:
           echo ${{ inputs.target-tag }}
       - name: Get image tag
         run: |
-          echo "SOURCE_IMAGE_WITH_TAG=${{ inputs.source_regurl_tag }}" >> $GITHUB_ENV
-          echo "TARGET_IMAGE_URL=${{ inputs.target_regurl }}" >> $GITHUB_ENV
-          echo IMAGE_TAG=$(echo ${{ env.SOURCE_IMAGE_WITH_TAG }} | cut -d":" -f2) >> $GITHUB_ENV
+          echo SOURCE_IMAGE_WITH_TAG=${{ inputs.source_regurl_tag }} >> $GITHUB_ENV
+          echo TARGET_IMAGE_URL=${{ inputs.target_regurl }} >> $GITHUB_ENV
+          echo IMAGE_TAG=$(echo ${{ inputs.source_regurl_tag }} | cut -d":" -f2) >> $GITHUB_ENV
 
       - name: Summary
         run: |
