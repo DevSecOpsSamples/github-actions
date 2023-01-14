@@ -16,9 +16,6 @@ jobs:
   copy_container_image:
     name: Copy container image
     runs-on: ubuntu-latest
-    env:
-      SOURCE_IMAGE_WITH_TAG: ${{ github.env.inputs.source-regurl-tag }}
-      TARGET_IMAGE_URL: ${{ github.env.inputs.target-regurl }}
     steps:
       - name: Get image tag
         run: |
