@@ -72,8 +72,9 @@ cp .github/workflows/dispatch-request-exmple.json request-body.json
 cat request-body.json
 
 curl -d @request-body.json \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Authorization: <your-token>" \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  -H "Authorization: Bearer <your-token>" \
   https://github.com/DevSecOpsSamples/githubactions/actions/workflows/dispatch-example.yml/dispatches
 ```
 
@@ -111,3 +112,5 @@ master branch:
 - https://github.com/actions/cache
 
 - https://github.com/actions/cache/blob/main/examples.md#java---gradle
+
+- https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#create-a-workflow-dispatch-event
