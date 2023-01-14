@@ -65,8 +65,44 @@ Provides GitHub Workflow and Action samples.
 | [google-github-actions/auth@v1](https://github.com/google-github-actions/auth) |  GitHub Action authenticates to Google Cloud |
 | [EnricoMi/publish-unit-test-result-action/composite@v2](https://github.com/EnricoMi/publish-unit-test-result-action) |  Publish Test Results |
 
-
 ## Dispatch
+
+```bash
+cp .github/workflows/dispatch-request-exmple.json request-body.json
+cat request-body.json
+
+curl -d @request-body.json \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Authorization: <your-token>" \
+  https://github.com/DevSecOpsSamples/githubactions/actions/workflows/dispatch-example.yml/dispatches
+```
+
+develop branch:
+
+[.github/workflows/dispatch-request-exmple.json](.github/workflows/dispatch-request-exmple.json)
+
+```json
+{ 
+   "ref": "develop",
+    "inputs": {
+        "test-url-tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
+        "prod-url": "gcr.io/project-id/target-image"
+    }
+}
+```
+
+master branch:
+
+```json
+{ 
+   "ref": "develop",
+    "inputs": {
+        "test-url-tag": "gcr.io/project-id/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2",
+        "prod-url": "gcr.io/project-id/target-image"
+    }
+}
+```
+
 
 ## Reference
 
