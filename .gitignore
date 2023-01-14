@@ -25,6 +25,9 @@ bin
 ## google-github-actions/auth@v1
 gha-creds-*.json
 
+# Dispatch Examples
+request-*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
