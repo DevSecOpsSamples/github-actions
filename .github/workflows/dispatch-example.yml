@@ -6,15 +6,15 @@ on:
       test-regurl-tag:
         required: true
         default: ""
-        description: "Container image URL with tag"
+        description: "Container image registry URL with tag"
       prod-regurl:
         required: true
         default: ""
-        description: "Container image URL WITHOUT tag"
+        description: "Container image registry URL WITHOUT tag"
 
 env:
-  TEST_IMAGE_WITH_TAG: ${{ github.env.inputs.test-url-tag }}
-  PROD_IMAGE_URL: ${{ github.env.inputs.prod-url }}
+  TEST_IMAGE_WITH_TAG: ${{ github.env.inputs.test-regurl-tag }}
+  PROD_IMAGE_URL: ${{ github.env.inputs.prod-regurl }}
 
 jobs:
   copy_container_image:
@@ -24,22 +24,6 @@ jobs:
       - name: Get image tag
         run: |
           echo IMAGE_TAG=$(echo ${{ env.TEST_IMAGE_WITH_TAG }} | cut -d":" -f2) >> $GITHUB_ENV
-
-      - uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: ${{ secrets.SA }}
-
-      - name: Configure Docker auth for gcloud command-line
-        run: gcloud --quiet auth configure-docker && gcloud auth list
-      
-      - name: Pull from test
-        run: docker pull ${{ env.TEST_IMAGE_WITH_TAG }}
-
-      - name: Tag prod image
-        run: docker tag ${{ env.TEST_IMAGE_WITH_TAG }} ${{ env.PROD_IMAGE_URL }}:${{ env.IMAGE_TAG }}
-
-      - name: Push to prod
-        run: docker push ${{ env.PROD_IMAGE_URL }}:${{ env.IMAGE_TAG }}
 
       - name: Summary
         run: |
