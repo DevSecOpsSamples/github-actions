@@ -3,18 +3,18 @@ name: GitHub action dispath
 on:
   workflow_dispatch:
     inputs:
-      test-regurl-tag:
+      source-regurl-tag:
         required: true
         default: ""
         description: "Container image registry URL with tag. e.g., gcr.io/project-id-372417/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2"
-      prod-regurl:
+      target-regurl:
         required: true
         default: ""
         description: "Container image registry URL WITHOUT tag e.g., gcr.io/project-id-372417/target-image"
 
 env:
-  TEST_IMAGE_WITH_TAG: ${{ github.env.inputs.test-regurl-tag }}
-  PROD_IMAGE_URL: ${{ github.env.inputs.prod-regurl }}
+  SOURCE_IMAGE_WITH_TAG: ${{ github.env.inputs.source-regurl-tag }}
+  TARGET_IMAGE_URL: ${{ github.env.inputs.target-regurl }}
 
 jobs:
   copy_container_image:
@@ -23,12 +23,12 @@ jobs:
     steps:
       - name: Get image tag
         run: |
-          echo IMAGE_TAG=$(echo ${{ env.TEST_IMAGE_WITH_TAG }} | cut -d":" -f2) >> $GITHUB_ENV
+          echo IMAGE_TAG=$(echo ${{ env.SOURCE_IMAGE_WITH_TAG }} | cut -d":" -f2) >> $GITHUB_ENV
 
       - name: Summary
         run: |
-          echo "TEST_IMAGE_WITH_TAG=${{ env.TEST_IMAGE_WITH_TAG }}" >> $GITHUB_STEP_SUMMARY
-          echo "PROD_IMAGE=${{ env.PROD_IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "SOURCE_IMAGE_WITH_TAG=${{ env.SOURCE_IMAGE_WITH_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "PROD_IMAGE=${{ env.TARGET_IMAGE_URL }}:${{ env.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
 
       - uses: hmarr/debug-action@v2
         if: always()
