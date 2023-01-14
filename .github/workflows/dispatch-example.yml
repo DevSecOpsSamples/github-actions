@@ -10,7 +10,7 @@ on:
       target_regurl:
         required: true
         default: ""
-        description: "Container image registry URL WITHOUT tag e.g., gcr.io/project-id-372417/target-image"
+        description: "Container image registry URL without tag. e.g., gcr.io/project-id-372417/target-image"
 
 jobs:
   copy_container_image:
