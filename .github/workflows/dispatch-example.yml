@@ -3,11 +3,11 @@ name: GitHub action dispath
 on:
   workflow_dispatch:
     inputs:
-      source-regurl-tag:
+      source_regurl_tag:
         required: true
         default: ""
         description: "Container image registry URL with tag. e.g., gcr.io/project-id-372417/source-image:2650c2f7c04640b8c67df560510914f7ba2033e2"
-      target-regurl:
+      target_regurl:
         required: true
         default: ""
         description: "Container image registry URL WITHOUT tag e.g., gcr.io/project-id-372417/target-image"
@@ -19,12 +19,12 @@ jobs:
     steps:
       - name: print
         run: |
-          echo ${{ github.env.inputs.source-regurl-tag }}
-          echo ${{ github.env.inputs.target-tag }}
+          echo ${{ inputs.source_regurl_tag }}
+          echo ${{ inputs.target-tag }}
       - name: Get image tag
         run: |
-          echo "SOURCE_IMAGE_WITH_TAG=${{ github.env.inputs.source-regurl-tag }}" >> $GITHUB_ENV
-          echo "TARGET_IMAGE_URL=${{ github.env.inputs.target-regurl }}" >> $GITHUB_ENV
+          echo "SOURCE_IMAGE_WITH_TAG=${{ inputs.source_regurl_tag }}" >> $GITHUB_ENV
+          echo "TARGET_IMAGE_URL=${{ inputs.target_regurl }}" >> $GITHUB_ENV
           echo IMAGE_TAG=$(echo ${{ env.SOURCE_IMAGE_WITH_TAG }} | cut -d":" -f2) >> $GITHUB_ENV
 
       - name: Summary
